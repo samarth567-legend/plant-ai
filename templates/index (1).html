@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Plant AI — Disease Detection</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <section class="hero">
+
+        <header class="navbar">
+
+            <div class="logo">
+                <img src="/static/images/logo.png" alt="Plant AI Logo">
+                <span class="logo-text">Plant AI</span>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#features">How it works</a>
+                <a href="#crops">Crop library</a>
+                <a href="#about">About</a>
+            </nav>
+
+            <div class="buttons">
+
+                <button class="button type-ghost">
+                    <span class="btn-txt">Menu</span>
+                </button>
+
+                <button class="button type1" onclick="window.location.href='/login'">
+
+                    <span class="btn-txt">
+                        Log in
+                    </span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <div class="hero-content">
+
+            <!-- LEFT SIDE -->
+
+            <div class="text">
+
+                <p class="eyebrow">AI Plant Diagnostics</p>
+
+                <div class="heading">
+
+                    <h1>
+                        Know what's<br>
+                        wrong with<br>
+                        your leaf.
+                    </h1>
+
+                </div>
+
+
+                <div class="para">
+
+                    <p>
+                        Point, scan, and get a diagnosis in seconds.
+                        Plant Ai reads leaf patterns the way a botanist
+                        would — then tells you exactly how to treat it.
+                    </p>
+
+                </div>
+
+
+                <div class="hero-actions">
+
+                    <form action="/predict" method="POST" enctype="multipart/form-data">
+
+                        <input type="file" id="fileinput" name="image" accept="image/*" hidden required>
+
+                        <button class="button type1" id="ScanButton" type="button">
+                            <span class="btn-txt">
+                                Scan a leaf
+                            </span>
+                        </button>
+
+                        <button type="submit" class="button type1" id="analyzeButton">
+                            <span class="btn-txt">
+                                Analyze Leaf
+                            </span>
+                        </button>
+
+                    </form>
+
+
+                    <div id="resultBox" class="result-box" style="display:none;">
+
+                        <h2 id="resultTitle"></h2>
+
+                        <p>
+                            <strong>Plant:</strong>
+                            <span id="plantName"></span>
+                        </p>
+
+                        <p>
+                            <strong>Confidence:</strong>
+                            <span id="confidence"></span>
+                        </p>
+
+                        <p>
+                            <strong>Details:</strong>
+                            <span id="description"></span>
+                        </p>
+
+
+                        <div class="solution">
+
+                            <h3>Recommended Solution</h3>
+
+                            <p id="solution"></p>
+
+                        </div>
+
+                    </div>
+
+
+                    <button class="button type-ghost">
+
+                        <span class="btn-txt">
+                            See how it works
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <div class="stat-row">
+
+                    <div class="stat">
+
+                        <span class="stat-num">
+                            98.7%
+                        </span>
+
+                        <span class="stat-label">
+                            Detection accuracy
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-divider"></div>
+
+
+                    <div class="stat">
+
+                        <span class="stat-num">
+                            40+
+                        </span>
+
+                        <span class="stat-label">
+                            Crop species covered
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-divider"></div>
+
+
+                    <div class="stat">
+
+                        <span class="stat-num">
+                            &lt;3s
+                        </span>
+
+                        <span class="stat-label">
+                            Average scan time
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="image">
+
+                <div class="scan-frame">
+
+                    <span class="corner tl"></span>
+                    <span class="corner tr"></span>
+                    <span class="corner bl"></span>
+                    <span class="corner br"></span>
+
+                    <span class="scan-line"></span>
+
+
+                    <img src="/static/images/hero.jpg" alt="Plant Leaf">
+
+
+                    <div class="scan-readout">
+
+                        <span class="dot"></span>
+
+                        analyzing leaf_04.jpg —
+                        98.7% confidence
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- HOW IT WORKS -->
+
+        <div class="section-head" id="features">
+
+            <p class="eyebrow">
+                The process
+            </p>
+
+            <h2>
+                From leaf to remedy, in four steps
+            </h2>
+
+        </div>
+
+
+        <div class="card-container1">
+
+
+            <!-- CARD 01 -->
+
+            <div class="card">
+
+                <div class="first-content">
+
+                    <span class="card-index">
+                        01
+                    </span>
+
+                    <img src="/static/images/leaf.png" alt="Leaf Detection">
+
+                </div>
+
+
+                <div class="second-content">
+
+                    <h1>
+                        Leaf Detection
+                    </h1>
+
+                    <p>
+                        Upload or capture a leaf image
+                        and let AI detect diseases accurately.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CARD 02 -->
+
+            <div class="card">
+
+                <div class="first-content">
+
+                    <span class="card-index">
+                        02
+                    </span>
+
+                    <img src="/static/images/brain.png" alt="AI Classification">
+
+                </div>
+
+
+                <div class="second-content">
+
+                    <h1>
+                        AI Classification
+                    </h1>
+
+                    <p>
+                        An advanced AI model classifies
+                        the disease with high accuracy.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CARD 03 -->
+
+            <div class="card">
+
+                <div class="first-content">
+
+                    <span class="card-index">
+                        03
+                    </span>
+
+                    <img src="/static/images/treatment.png" alt="Treatment">
+
+                </div>
+
+
+                <div class="second-content">
+
+                    <h1>
+                        Treatment
+                    </h1>
+
+                    <p>
+                        Get the best organic and chemical
+                        treatment recommendations instantly.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CARD 04 -->
+
+            <div class="card">
+
+                <div class="first-content">
+
+                    <span class="card-index">
+                        04
+                    </span>
+
+                    <img src="/static/images/history.png" alt="History Tracking">
+
+                </div>
+
+
+                <div class="second-content">
+
+                    <h1>
+                        History Tracking
+                    </h1>
+
+                    <p>
+                        Track your previous scans
+                        and monitor plant health over time.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DISEASE LIBRARY -->
+
+        <div class="section-head" id="crops">
+
+            <p class="eyebrow">
+                Popular crops we support
+            </p>
+
+            <h2>
+                Disease Library
+            </h2>
+
+        </div>
+
+
+        <div class="cardcontainer-2">
+
+
+            <!-- ALOE VERA -->
+
+            <div class="card1">
+
+                <img src="/static/images/aloe.jpg" alt="Aloe Vera">
+
+                <div class="card1__content">
+
+                    <p class="card1__title">
+                        Aloe Vera
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- NEEM -->
+
+            <div class="card1">
+
+                <img src="/static/images/neem.jpg" alt="Neem Plant">
+
+                <div class="card1__content">
+
+                    <p class="card1__title">
+                        Neem Plant
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ROSE -->
+
+            <div class="card1">
+
+                <img src="/static/images/rose.jpg" alt="Rose Plant">
+
+                <div class="card1__content">
+
+                    <p class="card1__title">
+                        Rose Plant
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TULSI -->
+
+            <div class="card1">
+
+                <img src="/static/images/tulsi.jpg" alt="Tulsi Plant">
+
+                <div class="card1__content">
+
+                    <p class="card1__title">
+                        Tulsi Plant
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer" id="about">
+
+            <div class="footer-top">
+
+
+                <div class="footer-brand">
+
+                    <span class="logo-text">
+                        Plant AI
+                    </span>
+
+                    <p>
+                        Built for growers who'd rather treat the leaf
+                        than lose the plant. Point your camera at any
+                        leaf and get a lab-grade diagnosis in seconds.
+                    </p>
+
+
+                    <div class="footer-socials">
+
+                        <a href="#" aria-label="Instagram">
+                            IG
+                        </a>
+
+                        <a href="#" aria-label="Twitter">
+                            X
+                        </a>
+
+                        <a href="#" aria-label="YouTube">
+                            YT
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="footer-links">
+
+                    <p class="footer-heading">
+                        Product
+                    </p>
+
+                    <a href="#features">
+                        How it works
+                    </a>
+
+                    <a href="#crops">
+                        Crop library
+                    </a>
+
+                    <a href="#">
+                        Pricing
+                    </a>
+
+                    <a href="#">
+                        Mobile app
+                    </a>
+
+                </div>
+
+
+
+                <div class="footer-links">
+
+                    <p class="footer-heading">
+                        Resources
+                    </p>
+
+                    <a href="#">
+                        Disease Library
+                    </a>
+
+                    <a href="#">
+                        Treatment Guides
+                    </a>
+
+                    <a href="#">
+                        Blog
+                    </a>
+
+                    <a href="#">
+                        Support
+                    </a>
+
+                </div>
+
+
+
+                <div class="footer-newsletter">
+
+                    <p class="footer-heading">
+                        Stay in the loop
+                    </p>
+
+                    <p class="footer-sub">
+                        Seasonal disease alerts and
+                        care tips, straight to your inbox.
+                    </p>
+
+
+                    <form class="newsletter-form">
+
+                        <input type="email" placeholder="Your email address" required>
+
+
+                        <button class="button type1" type="submit">
+
+                            <span class="btn-txt">
+                                Join
+                            </span>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="footer-bottom">
+
+                <p>
+                    © 2026 Plant AI. All rights reserved.
+                </p>
+
+
+                <div class="footer-bottom-links">
+
+                    <a href="#">
+                        Privacy Policy
+                    </a>
+
+                    <a href="#">
+                        Terms of Service
+                    </a>
+
+                </div>
+
+            </div>
+
+        </footer>
+
+    </section>
+    <script
+    src="{{ url_for('static', filename='script.js') }}">
+</script>
+</body>
+
+</html>

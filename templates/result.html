@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Plant AI - Diagnosis Result</title>
+
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/result.css') }}">
+
+
+    <style>
+
+        /* =====================================================
+           SENSOR SECTION
+        ===================================================== */
+
+        .sensor-section {
+
+            margin-top: 30px;
+
+            padding: 28px;
+
+            background: #ffffff;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .sensor-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .sensor-header h2 {
+
+            margin: 0;
+
+        }
+
+
+        .real-sensor-badge {
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            background: #dff5e3;
+
+            color: #187a32;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        .sensor-description {
+
+            color: #777;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        /* =====================================================
+           SENSOR VALUES
+        ===================================================== */
+
+        .sensor-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .sensor-card {
+
+            background: #f7f8f7;
+
+            border-radius: 15px;
+
+            padding: 22px 15px;
+
+            text-align: center;
+
+        }
+
+
+        .sensor-label {
+
+            font-size: 14px;
+
+            color: #666;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .sensor-value {
+
+            font-size: 30px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =====================================================
+           COLOR STATUS
+        ===================================================== */
+
+        .sensor-status {
+
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            background: #f1f8f2;
+
+        }
+
+
+        .sensor-status-title {
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .sensor-status-value {
+
+            font-size: 18px;
+
+            font-weight: 600;
+
+        }
+
+
+        .sensor-mode {
+
+            margin-top: 12px;
+
+            font-size: 13px;
+
+            color: #777;
+
+        }
+
+
+        /* =====================================================
+           PLANT ID
+        ===================================================== */
+
+        .plant-id-box {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            background: #f7f7f7;
+
+        }
+
+
+        .plant-id-box p {
+
+            margin: 5px 0;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            .sensor-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .sensor-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="result-page">
+
+
+    <!-- =====================================================
+         HEADER
+    ===================================================== -->
+
+    <header class="result-header">
+
+
+        <div class="result-logo">
+
+            <img
+                src="{{ url_for('static', filename='images/logo.png') }}"
+                alt="Plant AI">
+
+
+            <span>
+                Plant AI
+            </span>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('home') }}"
+            class="back-button">
+
+            Scan Another Leaf
+
+        </a>
+
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
+
+    <main class="result-container">
+
+
+        <!-- =================================================
+             TITLE
+        ================================================== -->
+
+        <div class="result-title">
+
+            <p>
+                AI PLANT DIAGNOSTICS
+            </p>
+
+
+            <h1>
+                Plant Health Result
+            </h1>
+
+
+            <span>
+                Your leaf has been analyzed successfully.
+            </span>
+
+        </div>
+
+
+
+        <!-- =================================================
+             RESULT CARD
+        ================================================== -->
+
+        <div class="result-card">
+
+
+            <!-- =============================================
+                 IMAGE
+            ============================================== -->
+
+            <div class="plant-image-section">
+
+                <img
+                    src="{{ plant_image }}"
+                    alt="Uploaded Plant">
+
+            </div>
+
+
+
+            <!-- =============================================
+                 INFORMATION
+            ============================================== -->
+
+            <div class="plant-info">
+
+
+                <!-- PLANT -->
+
+                <div class="info-item">
+
+                    <span class="label">
+                        Plant
+                    </span>
+
+
+                    <h2>
+                        {{ plant_name }}
+                    </h2>
+
+                </div>
+
+
+
+                <!-- DISEASE -->
+
+                <div class="info-item">
+
+                    <span class="label">
+                        Detected Disease
+                    </span>
+
+
+                    <h2 class="disease">
+                        {{ disease_name }}
+                    </h2>
+
+                </div>
+
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="confidence">
+
+                    <span>
+                        AI Confidence
+                    </span>
+
+
+                    <strong>
+                        {{ "%.2f"|format(confidence|float) }}%
+                    </strong>
+
+                </div>
+
+
+
+                <!-- HEALTH -->
+
+                <div class="confidence">
+
+                    <span>
+                        Current Plant Health
+                    </span>
+
+
+                    <strong>
+                        {{ "%.2f"|format(health_score|float) }}%
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PLANT ID
+        ================================================== -->
+
+        <div class="plant-id-box">
+
+            <p>
+
+                <strong>
+                    Unique Plant ID:
+                </strong>
+
+                {{ plant_id }}
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Total Scans:
+                </strong>
+
+                {{ total_scans }}
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             DETAILS
+        ================================================== -->
+
+        <div
+            class="solution"
+            style="margin-top:25px;">
+
+            <h3>
+                Details
+            </h3>
+
+
+            <p>
+                {{ description }}
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             TCS34725 REAL SENSOR
+        ================================================== -->
+
+        <section class="sensor-section">
+
+
+            <!-- SENSOR HEADER -->
+
+            <div class="sensor-header">
+
+
+                <h2>
+                    TCS34725 Color Sensor
+                </h2>
+
+
+                <span class="real-sensor-badge">
+
+                    ● REAL SENSOR
+
+                </span>
+
+
+            </div>
+
+
+
+            <p class="sensor-description">
+
+                Leaf color analysis using
+                ESP32 + TCS34725
+
+            </p>
+
+
+
+            <!-- =============================================
+                 SENSOR VALUES
+            ============================================== -->
+
+            <div class="sensor-grid">
+
+
+                <!-- RED -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+
+                        Red (R)
+
+                    </div>
+
+
+                    <div class="sensor-value">
+
+                        {% if sensor_r is not none %}
+
+                            {{ "%.0f"|format(sensor_r|float) }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- GREEN -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+
+                        Green (G)
+
+                    </div>
+
+
+                    <div class="sensor-value">
+
+                        {% if sensor_g is not none %}
+
+                            {{ "%.0f"|format(sensor_g|float) }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BLUE -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+
+                        Blue (B)
+
+                    </div>
+
+
+                    <div class="sensor-value">
+
+                        {% if sensor_b is not none %}
+
+                            {{ "%.0f"|format(sensor_b|float) }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CLEAR -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+
+                        Clear
+
+                    </div>
+
+
+                    <div class="sensor-value">
+
+                        {% if sensor_clear is not none %}
+
+                            {{ "%.0f"|format(sensor_clear|float) }}
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =============================================
+                 COLOR STATUS
+            ============================================== -->
+
+            <div class="sensor-status">
+
+
+                <div class="sensor-status-title">
+
+                    Color Status
+
+                </div>
+
+
+                <div class="sensor-status-value">
+
+                    {% if sensor_status %}
+
+                        {{ sensor_status }}
+
+                    {% else %}
+
+                        No real sensor reading available.
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =============================================
+                 SENSOR MODE
+            ============================================== -->
+
+            <div class="sensor-mode">
+
+                Sensor Mode:
+
+                <strong>
+
+                    {% if sensor_mode %}
+
+                        {{ sensor_mode }}
+
+                    {% else %}
+
+                        WAITING FOR ESP32
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RECOMMENDED SOLUTION
+        ================================================== -->
+
+        <div
+            class="solution"
+            style="margin-top:25px;">
+
+            <h3>
+                Recommended Solution
+            </h3>
+
+
+            <p>
+                {{ solution }}
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             BUTTONS
+        ================================================== -->
+
+        <div
+            style="
+                margin-top:30px;
+                display:flex;
+                gap:15px;
+                flex-wrap:wrap;
+            ">
+
+
+            <!-- SCAN AGAIN -->
+
+            <a
+                href="{{ url_for('home') }}"
+                class="back-button"
+                style="
+                    display:inline-block;
+                    text-decoration:none;
+                ">
+
+                Scan Another Leaf
+
+            </a>
+
+
+
+            <!-- DASHBOARD -->
+
+            {% if plant_id %}
+
+                <a
+                    href="{{ url_for(
+                        'dashboard',
+                        plant_id=plant_id
+                    ) }}"
+                    class="back-button"
+                    style="
+                        display:inline-block;
+                        text-decoration:none;
+                    ">
+
+                    View Plant Dashboard
+
+                </a>
+
+            {% endif %}
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+<script>
+(function () {
+
+    const rEl = document.getElementById("sensorR");
+    const gEl = document.getElementById("sensorG");
+    const bEl = document.getElementById("sensorB");
+    const cEl = document.getElementById("sensorClear");
+    const statusEl = document.getElementById("sensorStatus");
+    const modeEl = document.getElementById("sensorMode");
+    const badgeEl = document.getElementById("sensorBadge");
+
+    function displayValue(value) {
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+            return "—";
+        }
+
+        const n = Number(value);
+
+        return Number.isFinite(n)
+            ? n.toFixed(0)
+            : "—";
+    }
+
+
+    async function updateSensor() {
+
+        try {
+
+            const response = await fetch(
+                "{{ url_for('latest_sensor_api') }}?t=" + Date.now(),
+                {
+                    method: "GET",
+                    cache: "no-store",
+                    headers: {
+                        "Cache-Control": "no-cache"
+                    }
+                }
+            );
+
+
+            if (!response.ok) {
+                return;
+            }
+
+
+            const data = await response.json();
+
+
+            if (
+                !data.success ||
+                !data.sensor
+            ) {
+                return;
+            }
+
+
+            const sensor = data.sensor;
+
+
+            /* =========================================
+               NO LEAF DETECTED
+               ========================================= */
+
+            if (
+                sensor.mode === "NO LEAF" ||
+                sensor.status === "NO LEAF DETECTED" ||
+                Number(sensor.clear) === 0
+            ) {
+
+                rEl.textContent = "—";
+                gEl.textContent = "—";
+                bEl.textContent = "—";
+                cEl.textContent = "—";
+
+                statusEl.textContent =
+                    "NO LEAF DETECTED";
+
+                modeEl.textContent =
+                    "NO LEAF";
+
+                badgeEl.textContent =
+                    "● NO LEAF DETECTED";
+
+                return;
+            }
+
+
+            /* =========================================
+               REAL SENSOR
+               ========================================= */
+
+            rEl.textContent =
+                displayValue(sensor.r);
+
+            gEl.textContent =
+                displayValue(sensor.g);
+
+            bEl.textContent =
+                displayValue(sensor.b);
+
+            cEl.textContent =
+                displayValue(sensor.clear);
+
+            statusEl.textContent =
+                sensor.status ||
+                "Real sensor data received.";
+
+            modeEl.textContent =
+                sensor.mode ||
+                "REAL SENSOR";
+
+            badgeEl.textContent =
+                "● REAL SENSOR";
+
+        }
+
+        catch (error) {
+
+            console.log(
+                "Sensor update error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* First update */
+    updateSensor();
+
+
+    /* Update every 2 seconds */
+    setInterval(
+        updateSensor,
+        2000
+    );
+
+})();
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+__pycache__/
+*.pyc
+
+.venv/
+venv/
+env/
+.vscode/
+.env
+
+# Runtime uploads
+uploads/
+static/uploads/
+
+# Local databases
+plant_ai.db
+plant_history.db
+
+# Dataset and training files
+dataset/
+*_dataset.py
+train_*.py
+check_*.py
+test_*.py
+
+# Local/test images
+*.jpg
+*.jpeg
+*.png
+
+# Other model file not used by app
+plant_model.keras
+
+*.log

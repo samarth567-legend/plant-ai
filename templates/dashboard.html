@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Plant AI - Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #0d2418;
+            color: white;
+        }
+
+        .navbar {
+            background: #163c27;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .header {
+            background: #173d28;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #173d28;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .card h2 {
+            font-size: 28px;
+        }
+
+        .latest {
+            background: #173d28;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .latest img {
+            width: 250px;
+            max-width: 100%;
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #173d28;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #31543e;
+        }
+
+        .healthy {
+            color: #66ff99;
+        }
+
+        .diseased {
+            color: #ff7777;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="navbar">
+
+        <h2>🌿 Plant AI</h2>
+
+        <div>
+
+            <a href="/profile">
+                Profile
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- PLANT HEADER -->
+
+        <div class="header">
+
+            <h1>
+                🌿 {{ plant["plant_name"] }}
+            </h1>
+
+            <p>
+                Plant ID:
+                <strong>{{ plant["plant_id"] }}</strong>
+            </p>
+
+            <p>
+                Created:
+                {{ plant["created_at"] }}
+            </p>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="cards">
+
+
+            <div class="card">
+
+                <h3>Total Scans</h3>
+
+                <h2>
+                    {{ total_scans }}
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Average Health</h3>
+
+                <h2>
+                    {{ average_health }}%
+                </h2>
+
+            </div>
+
+
+            {% if latest_scan %}
+
+            <div class="card">
+
+                <h3>Latest Disease</h3>
+
+                <h2>
+                    {{ latest_scan["disease"] }}
+                </h2>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Latest Confidence</h3>
+
+                <h2>
+                    {{ "%.2f"|format(latest_scan["confidence"]) }}%
+                </h2>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- LATEST SCAN -->
+
+        {% if latest_scan %}
+
+        <div class="latest">
+
+            <h2>
+                Latest Scan
+            </h2>
+
+
+            <img src="{{ latest_scan['image_path'] }}" alt="Plant Image">
+
+
+            <h3>
+                Disease:
+                {{ latest_scan["disease"] }}
+            </h3>
+
+
+            <p>
+
+                Confidence:
+
+                <strong>
+                    {{ "%.2f"|format(latest_scan["confidence"]) }}%
+                </strong>
+
+            </p>
+
+
+            <p>
+
+                Health Score:
+
+                <strong>
+                    {{ "%.2f"|format(latest_scan["health_score"]) }}%
+                </strong>
+
+            </p>
+
+
+            <h3>
+                Details
+            </h3>
+
+            <p>
+                {{ latest_scan["description"] }}
+            </p>
+
+
+            <h3>
+                Recommended Solution
+            </h3>
+
+            <p>
+                {{ latest_scan["solution"] }}
+            </p>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- HISTORY -->
+
+        <h2>
+            📊 Plant Scan History
+        </h2>
+
+
+        {% if scans %}
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Disease
+                    </th>
+
+                    <th>
+                        Confidence
+                    </th>
+
+                    <th>
+                        Health Score
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for scan in scans %}
+
+                <tr>
+
+                    <td>
+                        {{ scan["scanned_at"] }}
+                    </td>
+
+
+                    <td>
+
+                        {% if "Healthy" in scan["disease"] %}
+
+                        <span class="healthy">
+                            {{ scan["disease"] }}
+                        </span>
+
+                        {% else %}
+
+                        <span class="diseased">
+                            {{ scan["disease"] }}
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+                        {{ "%.2f"|format(scan["confidence"]) }}%
+                    </td>
+
+
+                    <td>
+                        {{ "%.2f"|format(scan["health_score"]) }}%
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <p>
+            No scan history available.
+        </p>
+
+        {% endif %}
+
+
+        <br>
+
+
+        <a class="button" href="/profile">
+            ← Back to Profile
+        </a>
+
+        <a class="button" href="/?plant_id={{ plant['plant_id'] }}">
+            📷 Scan This Plant Again
+        </a>
+
+    </div>
+
+
+</body>
+
+</html>

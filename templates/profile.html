@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Plant AI - Profile</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #0d2418;
+            color: white;
+        }
+
+        .navbar {
+            padding: 20px 40px;
+            background: #163c27;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .profile {
+            background: #173d28;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .plant-card {
+            background: #173d28;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="navbar">
+
+    <h2>🌿 Plant AI</h2>
+
+    <a
+        class="logout"
+        href="/logout"
+    >
+        Logout
+    </a>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- USER PROFILE -->
+
+    <div class="profile">
+
+        <h1>
+            Welcome, {{ user["name"] }}
+        </h1>
+
+        <p>
+            Email: {{ user["email"] }}
+        </p>
+
+        <p>
+            Account Created:
+            {{ user["created_at"] }}
+        </p>
+
+    </div>
+
+
+    <h2>Your Plants</h2>
+
+
+    {% if plants %}
+
+        <div class="plant-grid">
+
+            {% for plant in plants %}
+
+                <div class="plant-card">
+
+                    <h2>
+                        🌿 {{ plant["plant_name"] }}
+                    </h2>
+
+                    <p>
+                        <strong>Plant ID:</strong>
+                        {{ plant["plant_id"] }}
+                    </p>
+
+                    <p>
+                        <strong>Total Scans:</strong>
+                        {{ plant["total_scans"] }}
+                    </p>
+
+                    <p>
+                        Created:
+                        {{ plant["created_at"] }}
+                    </p>
+
+
+                    <a
+                        class="button"
+                        href="/dashboard/{{ plant['plant_id'] }}"
+                    >
+                        View Plant Dashboard
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>
+            You haven't scanned any plants yet.
+        </p>
+
+        <a
+            class="button"
+            href="/"
+        >
+            Scan Your First Plant
+        </a>
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>
